@@ -1,5 +1,10 @@
 import { v } from "convex/values";
-import { action, internalMutation, internalQuery } from "./_generated/server";
+import {
+  action,
+  internalMutation,
+  internalQuery,
+  query,
+} from "./_generated/server";
 import { embed } from "../src/lib/embedd";
 import { internal } from "./_generated/api";
 import { Doc } from "./_generated/dataModel";
@@ -109,5 +114,27 @@ export const addVideo = action({
     });
 
     return true;
+  },
+});
+
+export const allVideos = query({
+  args: {},
+  handler: async (ctx) => {
+    const videos = await ctx.db.query("videos").collect();
+    return videos;
+  },
+});
+
+export const getVideo = query({
+  args: {
+    id: v.id("videos"),
+  },
+  handler: async (ctx, args) => {
+    if (!args.id) {
+      return null;
+    }
+
+    const video = await ctx.db.get(args.id);
+    return video;
   },
 });

@@ -6,7 +6,7 @@ import VideoCard from "./video-card";
 import { useAction } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 
-interface video {
+export interface video {
   _id: string;
   title: string;
   description: string;
